@@ -1,0 +1,10 @@
+# Terraform variable values
+# COPY THIS FILE TO terraform.tfvars AND UPDATE VALUES
+
+project_id  = "adc-agent"
+region      = "us-central1"
+environment = "production"
+
+# SECURITY: Change this password!
+# Generate secure password: openssl rand -base64 32
+db_password = "CHANGE_THIS_TO_A_SECURE_PASSWORD"
