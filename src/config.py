@@ -67,6 +67,7 @@ class LoggingConfig:
 @dataclass
 class AppConfig:
     """Application configuration"""
+    project_id: str = os.getenv('GOOGLE_CLOUD_PROJECT', 'adc-agent')
     port: int = int(os.getenv('PORT', '8080'))
     debug: bool = os.getenv('DEBUG', 'false').lower() == 'true'
     database: DatabaseConfig = None

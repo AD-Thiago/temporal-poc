@@ -13,8 +13,9 @@ def create_dashboard(dashboard_file: str, project_id: str = "adc-agent"):
     with open(dashboard_file, 'r') as f:
         dashboard_config = json.load(f)
     
-    # Write to temp file for gcloud
-    temp_file = "/tmp/dashboard_config.json"
+    # Write to temp file for gcloud (Windows compatible)
+    import tempfile
+    temp_file = os.path.join(tempfile.gettempdir(), "dashboard_config.json")
     with open(temp_file, 'w') as f:
         json.dump(dashboard_config, f)
     

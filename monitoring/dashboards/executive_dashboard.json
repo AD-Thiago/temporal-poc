@@ -90,14 +90,7 @@
             "yAxis": {
               "label": "Error Rate (%)",
               "scale": "LINEAR"
-            },
-            "thresholds": [
-              {
-                "value": 5.0,
-                "color": "RED",
-                "direction": "ABOVE"
-              }
-            ]
+            }
           }
         }
       },
@@ -129,19 +122,7 @@
             "yAxis": {
               "label": "Utilization (%)",
               "scale": "LINEAR"
-            },
-            "thresholds": [
-              {
-                "value": 80.0,
-                "color": "YELLOW",
-                "direction": "ABOVE"
-              },
-              {
-                "value": 90.0,
-                "color": "RED",
-                "direction": "ABOVE"
-              }
-            ]
+            }
           }
         }
       },

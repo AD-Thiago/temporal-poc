@@ -8,8 +8,12 @@ from google.cloud import monitoring_v3
 from google.api import metric_pb2 as ga_metric
 from google.api import label_pb2 as ga_label
 
-from ..src.config import config
-from ..src.logging_config import get_logger
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from src.config import config
+from src.logging_config import get_logger
 
 logger = get_logger(__name__)
 
