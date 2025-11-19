@@ -26,7 +26,16 @@ jobs:
 
       - name: Build and push image (Cloud Build)
         run: |
-          gcloud builds submit --tag gcr.io/adc-agent/temporal-poc-worker:latest --project=adc-agent --suppress-logs
+          BUILD_ID=$(gcloud builds submit --tag gcr.io/adc-agent/temporal-poc-worker:latest --project=adc-agent --async --format="value(id)")
+          echo "Build ID: $BUILD_ID"
+          echo "Waiting for build to complete..."
+          gcloud builds log --stream $BUILD_ID --project=adc-agent || true
+          STATUS=$(gcloud builds describe $BUILD_ID --project=adc-agent --format="value(status)")
+          echo "Build status: $STATUS"
+          if [ "$STATUS" != "SUCCESS" ]; then
+            echo "Build failed with status: $STATUS"
+            exit 1
+          fi
 
       - name: Deploy to Cloud Run
         run: |
