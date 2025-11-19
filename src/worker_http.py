@@ -3,6 +3,7 @@ import base64
 import os
 import uuid
 from datetime import datetime
+from sqlalchemy import text
 
 from .config import config
 from .logging_config import get_logger
@@ -43,7 +44,7 @@ def readiness():
     """Readiness check - verifies database connectivity"""
     try:
         with get_db_session() as session:
-            session.execute('SELECT 1')
+            session.execute(text('SELECT 1'))
         
         return jsonify({
             'status': 'ready',
