@@ -1,0 +1,24 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '${_IMAGE}', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_IMAGE}']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud run deploy ${_SERVICE} \
+          --image ${_IMAGE} \
+          --region ${_REGION} \
+          --platform managed \
+          --set-env-vars TEMPORAL_TARGET=${_TEMPORAL_TARGET},TEMPORAL_NAMESPACE=${_TEMPORAL_NAMESPACE} \
+          --update-secrets TEMPORAL_API_KEY=projects/${PROJECT_ID}/secrets/${_SECRET_NAME}:latest
+substitutions:
+  _IMAGE: ''
+  _SERVICE: ''
+  _REGION: ''
+  _TEMPORAL_TARGET: ''
+  _TEMPORAL_NAMESPACE: ''
+  _SECRET_NAME: ''
+timeout: 1200s

@@ -1,0 +1,37 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: adc-agent
+
+      - name: Build and push image (Cloud Build)
+        run: |
+          gcloud builds submit --tag gcr.io/adc-agent/temporal-poc-worker:latest --project=adc-agent
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy temporal-worker \
+            --image gcr.io/adc-agent/temporal-poc-worker:latest \
+            --region us-central1 \
+            --platform managed \
+            --set-env-vars PUBSUB_TOPIC=hello-topic \
+            --quiet --project=adc-agent
