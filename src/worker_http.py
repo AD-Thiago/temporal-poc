@@ -20,6 +20,18 @@ logger = get_logger(__name__)
 
 app = Flask(__name__)
 
+# Cloud Monitoring integration
+try:
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+    from monitoring import get_monitoring_exporter
+    monitoring_enabled = True
+    logger.info("Cloud Monitoring integration enabled")
+except ImportError as e:
+    monitoring_enabled = False
+    logger.warning("Cloud Monitoring not available", error=str(e))
+
 # Prometheus metrics
 messages_processed = Counter('messages_processed_total', 'Total messages processed', ['status'])
 job_duration = Histogram('job_duration_seconds', 'Job processing duration')
@@ -181,6 +193,15 @@ def pubsub_push():
                 duration = (job.completed_at - start_time).total_seconds()
                 job_duration.observe(duration)
                 messages_processed.labels(status='success').inc()
+                
+                # Export to Cloud Monitoring
+                if monitoring_enabled:
+                    try:
+                        exporter = get_monitoring_exporter()
+                        exporter.write_time_series("job_processing_latency", duration * 1000, metric_labels={"status": "completed"})
+                        exporter.write_time_series("active_jobs", active_jobs._value._value)
+                    except Exception as mon_error:
+                        logger.warning("Failed to export metrics to Cloud Monitoring", error=str(mon_error))
                 
                 # Cache the completed job
                 job_dict = {
