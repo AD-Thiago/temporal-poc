@@ -1,6 +1,6 @@
-# 🚀 Sprint 2: Cache & API - EM PROGRESSO
+# 🚀 Sprint 2: Cache & REST API - ✅ 100% COMPLETO
 
-## ✅ Tarefas Completas
+## ✅ Todas as Tarefas Completas
 
 ### 1. Cloud Memorystore (Redis) ✅
 - **Instância criada**: `cuida-care-cache`
@@ -151,11 +151,42 @@ User Request
  Metrics]
 ```
 
-**Próxima Adição**:
+### 5. FastAPI REST API Deployada ✅
+**Serviço**: `cuida-care-api`
+**URL**: https://cuida-care-api-666504855517.us-central1.run.app
+
+**Endpoints Implementados**:
+- `GET /health` - Health check simples
+- `GET /status` - Status completo (database + cache)
+- `GET /api/v1/jobs` - Lista jobs com paginação e filtros
+- `GET /api/v1/jobs/{job_id}` - Busca job específico
+- `GET /api/v1/jobs/stats/summary` - Estatísticas agregadas
+- `GET /api/v1/events/{job_id}` - Eventos do job
+- `GET /cache/stats` - Estatísticas do Redis
+- `GET /docs` - Documentação OpenAPI/Swagger
+- `GET /redoc` - Documentação ReDoc
+
+**Features**:
+- ✅ Pydantic models para validação
+- ✅ Estratégia cache-first (consulta Redis antes do PostgreSQL)
+- ✅ Paginação automática
+- ✅ Filtros por status
+- ✅ OpenAPI/Swagger UI automático
+- ✅ Error handling com HTTP status codes corretos
+- ✅ Metrics tracking (cache hits/misses)
+- ✅ Conexão via VPC connector (acesso privado ao Redis e PostgreSQL)
+
+**Arquitetura Completa**:
 ```
-[Cloud Run - FastAPI]  ← Nova API REST
+[Cliente]
+    ↓
+[Cloud Run - FastAPI API]  ← Nova API REST deployada
     ↓              ↓
 [Redis Cache]  [PostgreSQL]
+    ↑              ↑
+    └──────┬───────┘
+           ↓
+[Cloud Run - Worker HTTP]
 ```
 
 ---
@@ -163,21 +194,43 @@ User Request
 ## 🔐 Segurança & Rede
 
 - ✅ Redis em rede privada (10.168.202.27)
+- ✅ PostgreSQL em rede privada (136.116.107.199)
 - ✅ VPC Connector com egress privado
 - ✅ Sem IP público no Redis
-- ✅ Cloud SQL via Cloud SQL Connector (sem IP público)
+- ✅ Cloud SQL via Cloud SQL Connector ou TCP direto (sem IP público)
 - ✅ Autenticação IAM no Cloud Run
+- ✅ Secret Manager para credenciais do banco
 
 ---
 
 ## 📝 Comandos Úteis
 
-**Ver estatísticas do cache**:
+**Ver estatísticas do cache (API)**:
 ```bash
-curl https://temporal-worker-666504855517.us-central1.run.app/cache/stats
+curl https://cuida-care-api-666504855517.us-central1.run.app/cache/stats
 ```
 
-**Ver métricas Prometheus**:
+**Listar jobs**:
+```bash
+curl https://cuida-care-api-666504855517.us-central1.run.app/api/v1/jobs?limit=5
+```
+
+**Ver job específico**:
+```bash
+curl https://cuida-care-api-666504855517.us-central1.run.app/api/v1/jobs/{job_id}
+```
+
+**Ver estatísticas**:
+```bash
+curl https://cuida-care-api-666504855517.us-central1.run.app/api/v1/jobs/stats/summary
+```
+
+**Ver documentação OpenAPI**:
+```
+https://cuida-care-api-666504855517.us-central1.run.app/docs
+```
+
+**Ver métricas Prometheus (Worker)**:
 ```bash
 curl https://temporal-worker-666504855517.us-central1.run.app/metrics
 ```
