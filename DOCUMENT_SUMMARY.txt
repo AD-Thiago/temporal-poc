@@ -1,0 +1,27 @@
+================================================================================
+RESUMO DO DOCUMENTO - CUIDA+Care Command Center
+================================================================================
+
+*** PALAVRAS-CHAVE ENCONTRADAS ***
+  TEMPORAL: 2 menções
+  WORKER: 0 menções
+  WORKFLOW: 1 menções
+  GCP: 8 menções
+  CLOUD RUN: 2 menções
+  PUB/SUB: 4 menções
+  POC: 0 menções
+  API: 37 menções
+  FASTAPI: 9 menções
+  POSTGRES: 3 menções
+  REDIS: 30 menções
+  MONITORING: 7 menções
+  TERRAFORM: 3 menções
+
+
+*** SE��ES PRINCIPAIS DO DOCUMENTO ***
+  5. Incremental & Testável: Cada componente pode ser desenvolvido e testado
+  6. Schema-Driven: Todos os contratos de API/dados estão explícitos em JSON Schema
+  1.3 Princípios Arquiteturais (LLM-Driven)
+  2. ARQUITETURA DO COMMAND CENTER
+  2.1 Visão Geral da Arquitetura
+  2.2 Componentes Principais

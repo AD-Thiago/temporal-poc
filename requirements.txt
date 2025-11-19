@@ -1,4 +1,21 @@
 Flask>=2.0
+Flask==3.0.0
+gunicorn==21.2.0
 google-cloud-pubsub==2.33.0
+requests==2.31.0
+
+# Database
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.23
+alembic==1.13.0
+cloud-sql-python-connector[pg8000]==1.11.0
+pg8000==1.31.2
+
+# Logging
+google-cloud-logging==3.9.0
+python-json-logger==2.0.7
+
+# Monitoring & Health
+prometheus-client==0.19.0
 gunicorn>=20.1
 

@@ -1,0 +1,185 @@
+﻿2025-11-19T07:51:12.2001327Z Current runner version: '2.329.0'
+2025-11-19T07:51:12.2039387Z ##[group]Runner Image Provisioner
+2025-11-19T07:51:12.2041055Z Hosted Compute Agent
+2025-11-19T07:51:12.2042670Z Version: 20251016.436
+2025-11-19T07:51:12.2044083Z Commit: 8ab8ac8bfd662a3739dab9fe09456aba92132568
+2025-11-19T07:51:12.2045669Z Build Date: 2025-10-15T20:44:12Z
+2025-11-19T07:51:12.2047140Z ##[endgroup]
+2025-11-19T07:51:12.2048410Z ##[group]Operating System
+2025-11-19T07:51:12.2049955Z Ubuntu
+2025-11-19T07:51:12.2051090Z 24.04.3
+2025-11-19T07:51:12.2052460Z LTS
+2025-11-19T07:51:12.2053547Z ##[endgroup]
+2025-11-19T07:51:12.2054976Z ##[group]Runner Image
+2025-11-19T07:51:12.2056314Z Image: ubuntu-24.04
+2025-11-19T07:51:12.2058180Z Version: 20251112.124.1
+2025-11-19T07:51:12.2060443Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251112.124/images/ubuntu/Ubuntu2404-Readme.md
+2025-11-19T07:51:12.2064117Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251112.124
+2025-11-19T07:51:12.2066287Z ##[endgroup]
+2025-11-19T07:51:12.2068837Z ##[group]GITHUB_TOKEN Permissions
+2025-11-19T07:51:12.2072201Z Contents: read
+2025-11-19T07:51:12.2073480Z Metadata: read
+2025-11-19T07:51:12.2074812Z Packages: read
+2025-11-19T07:51:12.2076119Z ##[endgroup]
+2025-11-19T07:51:12.2079843Z Secret source: Actions
+2025-11-19T07:51:12.2081357Z Prepare workflow directory
+2025-11-19T07:51:12.2568479Z Prepare all required actions
+2025-11-19T07:51:12.2626736Z Getting action download info
+2025-11-19T07:51:12.5017333Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-11-19T07:51:12.5973291Z Download action repository 'google-github-actions/auth@v1' (SHA:3a3c4c57d294ef65efaaee4ff17b22fa88dd3c69)
+2025-11-19T07:51:12.7949332Z Download action repository 'google-github-actions/setup-gcloud@v1' (SHA:e30db14379863a8c79331b04a9969f4c1e225e0b)
+2025-11-19T07:51:13.0231535Z Complete job name: Build and deploy
+2025-11-19T07:51:13.0921434Z ##[group]Run actions/checkout@v4
+2025-11-19T07:51:13.0922712Z with:
+2025-11-19T07:51:13.0923357Z   repository: AD-Thiago/temporal-poc
+2025-11-19T07:51:13.0924261Z   token: ***
+2025-11-19T07:51:13.0924866Z   ssh-strict: true
+2025-11-19T07:51:13.0925484Z   ssh-user: git
+2025-11-19T07:51:13.0926108Z   persist-credentials: true
+2025-11-19T07:51:13.0926780Z   clean: true
+2025-11-19T07:51:13.0927401Z   sparse-checkout-cone-mode: true
+2025-11-19T07:51:13.0928101Z   fetch-depth: 1
+2025-11-19T07:51:13.0928710Z   fetch-tags: false
+2025-11-19T07:51:13.0929339Z   show-progress: true
+2025-11-19T07:51:13.0929968Z   lfs: false
+2025-11-19T07:51:13.0930561Z   submodules: false
+2025-11-19T07:51:13.0931192Z   set-safe-directory: true
+2025-11-19T07:51:13.0932234Z ##[endgroup]
+2025-11-19T07:51:13.2031029Z Syncing repository: AD-Thiago/temporal-poc
+2025-11-19T07:51:13.2034251Z ##[group]Getting Git version info
+2025-11-19T07:51:13.2035863Z Working directory is '/home/runner/work/temporal-poc/temporal-poc'
+2025-11-19T07:51:13.2038116Z [command]/usr/bin/git version
+2025-11-19T07:51:13.2073072Z git version 2.51.2
+2025-11-19T07:51:13.2107971Z ##[endgroup]
+2025-11-19T07:51:13.2121123Z Temporarily overriding HOME='/home/runner/work/_temp/6ceb3397-8f2a-4f6f-8de8-8155c4773bb7' before making global git config changes
+2025-11-19T07:51:13.2123035Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-19T07:51:13.2129380Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/temporal-poc/temporal-poc
+2025-11-19T07:51:13.2175731Z Deleting the contents of '/home/runner/work/temporal-poc/temporal-poc'
+2025-11-19T07:51:13.2180410Z ##[group]Initializing the repository
+2025-11-19T07:51:13.2186187Z [command]/usr/bin/git init /home/runner/work/temporal-poc/temporal-poc
+2025-11-19T07:51:13.2313316Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-11-19T07:51:13.2315363Z hint: is subject to change. To configure the initial branch name to use in all
+2025-11-19T07:51:13.2317147Z hint: of your new repositories, which will suppress this warning, call:
+2025-11-19T07:51:13.2318810Z hint:
+2025-11-19T07:51:13.2319673Z hint: 	git config --global init.defaultBranch <name>
+2025-11-19T07:51:13.2320399Z hint:
+2025-11-19T07:51:13.2321096Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-11-19T07:51:13.2322502Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-11-19T07:51:13.2323391Z hint:
+2025-11-19T07:51:13.2324022Z hint: 	git branch -m <name>
+2025-11-19T07:51:13.2325013Z hint:
+2025-11-19T07:51:13.2325795Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-11-19T07:51:13.2327020Z Initialized empty Git repository in /home/runner/work/temporal-poc/temporal-poc/.git/
+2025-11-19T07:51:13.2333065Z [command]/usr/bin/git remote add origin https://github.com/AD-Thiago/temporal-poc
+2025-11-19T07:51:13.2369026Z ##[endgroup]
+2025-11-19T07:51:13.2370584Z ##[group]Disabling automatic garbage collection
+2025-11-19T07:51:13.2374214Z [command]/usr/bin/git config --local gc.auto 0
+2025-11-19T07:51:13.2407376Z ##[endgroup]
+2025-11-19T07:51:13.2408545Z ##[group]Setting up auth
+2025-11-19T07:51:13.2416554Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-19T07:51:13.2447053Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-19T07:51:13.2774866Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-19T07:51:13.2805857Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-19T07:51:13.3024576Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-11-19T07:51:13.3057400Z ##[endgroup]
+2025-11-19T07:51:13.3058546Z ##[group]Fetching the repository
+2025-11-19T07:51:13.3066264Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f8de95290188e2e8f4a0027b3d6434ae99f889d7:refs/remotes/origin/main
+2025-11-19T07:51:13.4598464Z From https://github.com/AD-Thiago/temporal-poc
+2025-11-19T07:51:13.4601181Z  * [new ref]         f8de95290188e2e8f4a0027b3d6434ae99f889d7 -> origin/main
+2025-11-19T07:51:13.4632135Z ##[endgroup]
+2025-11-19T07:51:13.4634240Z ##[group]Determining the checkout info
+2025-11-19T07:51:13.4636330Z ##[endgroup]
+2025-11-19T07:51:13.4639546Z [command]/usr/bin/git sparse-checkout disable
+2025-11-19T07:51:13.4684730Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-11-19T07:51:13.4717737Z ##[group]Checking out the ref
+2025-11-19T07:51:13.4720336Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2025-11-19T07:51:13.4786084Z Switched to a new branch 'main'
+2025-11-19T07:51:13.4790559Z branch 'main' set up to track 'origin/main'.
+2025-11-19T07:51:13.4800207Z ##[endgroup]
+2025-11-19T07:51:13.4836905Z [command]/usr/bin/git log -1 --format=%H
+2025-11-19T07:51:13.4860890Z f8de95290188e2e8f4a0027b3d6434ae99f889d7
+2025-11-19T07:51:13.5256615Z ##[group]Run google-github-actions/auth@v1
+2025-11-19T07:51:13.5257788Z with:
+2025-11-19T07:51:13.5288486Z   credentials_json: ***
+
+2025-11-19T07:51:13.5289431Z   create_credentials_file: true
+2025-11-19T07:51:13.5290436Z   export_environment_variables: true
+2025-11-19T07:51:13.5291486Z   cleanup_credentials: true
+2025-11-19T07:51:13.5292601Z   access_token_lifetime: 3600s
+2025-11-19T07:51:13.5293875Z   access_token_scopes: https://www.googleapis.com/auth/cloud-platform
+2025-11-19T07:51:13.5295208Z   retries: 3
+2025-11-19T07:51:13.5296008Z   backoff: 250
+2025-11-19T07:51:13.5296859Z   id_token_include_email: false
+2025-11-19T07:51:13.5297809Z ##[endgroup]
+2025-11-19T07:51:13.6174884Z Created credentials file at "/home/runner/work/temporal-poc/temporal-poc/gha-creds-330ae89a28abc0c0.json"
+2025-11-19T07:51:13.6348245Z ##[warning]Unexpected input(s) 'service_account_key', valid inputs are ['skip_install', 'version', 'project_id', 'install_components']
+2025-11-19T07:51:13.6370987Z ##[group]Run google-github-actions/setup-gcloud@v1
+2025-11-19T07:51:13.6371692Z with:
+2025-11-19T07:51:13.6388480Z   service_account_key: ***
+
+2025-11-19T07:51:13.6389086Z   project_id: adc-agent
+2025-11-19T07:51:13.6389644Z   skip_install: false
+2025-11-19T07:51:13.6390186Z   version: latest
+2025-11-19T07:51:13.6390688Z env:
+2025-11-19T07:51:13.6391650Z   CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /home/runner/work/temporal-poc/temporal-poc/gha-creds-330ae89a28abc0c0.json
+2025-11-19T07:51:13.6393277Z   GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/temporal-poc/temporal-poc/gha-creds-330ae89a28abc0c0.json
+2025-11-19T07:51:13.6394676Z   GOOGLE_GHA_CREDS_PATH: /home/runner/work/temporal-poc/temporal-poc/gha-creds-330ae89a28abc0c0.json
+2025-11-19T07:51:13.6395667Z   CLOUDSDK_CORE_PROJECT: adc-agent
+2025-11-19T07:51:13.6396335Z   CLOUDSDK_PROJECT: adc-agent
+2025-11-19T07:51:13.6396931Z   GCLOUD_PROJECT: adc-agent
+2025-11-19T07:51:13.6397504Z   GCP_PROJECT: adc-agent
+2025-11-19T07:51:13.6398081Z   GOOGLE_CLOUD_PROJECT: adc-agent
+2025-11-19T07:51:13.6398675Z ##[endgroup]
+2025-11-19T07:51:14.8603383Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/ca86836d-88be-4675-b23b-f898e010cb57 -f /home/runner/work/_temp/aba7960f-35ff-483a-8cc4-9d9b0f3644f9
+2025-11-19T07:51:34.2187357Z Successfully authenticated
+2025-11-19T07:51:35.2177345Z Successfully set default project
+2025-11-19T07:51:35.2345880Z ##[group]Run gcloud builds submit --tag gcr.io/adc-agent/temporal-poc-worker:latest --project=adc-agent
+2025-11-19T07:51:35.2346844Z [36;1mgcloud builds submit --tag gcr.io/adc-agent/temporal-poc-worker:latest --project=adc-agent[0m
+2025-11-19T07:51:35.2386496Z shell: /usr/bin/bash -e ***0***
+2025-11-19T07:51:35.2386902Z env:
+2025-11-19T07:51:35.2387490Z   CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /home/runner/work/temporal-poc/temporal-poc/gha-creds-330ae89a28abc0c0.json
+2025-11-19T07:51:35.2388434Z   GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/temporal-poc/temporal-poc/gha-creds-330ae89a28abc0c0.json
+2025-11-19T07:51:35.2389239Z   GOOGLE_GHA_CREDS_PATH: /home/runner/work/temporal-poc/temporal-poc/gha-creds-330ae89a28abc0c0.json
+2025-11-19T07:51:35.2389824Z   CLOUDSDK_CORE_PROJECT: adc-agent
+2025-11-19T07:51:35.2390202Z   CLOUDSDK_PROJECT: adc-agent
+2025-11-19T07:51:35.2390558Z   GCLOUD_PROJECT: adc-agent
+2025-11-19T07:51:35.2390905Z   GCP_PROJECT: adc-agent
+2025-11-19T07:51:35.2391303Z   GOOGLE_CLOUD_PROJECT: adc-agent
+2025-11-19T07:51:35.2391766Z   CLOUDSDK_METRICS_ENVIRONMENT: github-actions-setup-gcloud
+2025-11-19T07:51:35.2392422Z   CLOUDSDK_METRICS_ENVIRONMENT_VERSION: 1.1.1
+2025-11-19T07:51:35.2392814Z ##[endgroup]
+2025-11-19T07:51:36.2006301Z Creating temporary archive of 20 file(s) totalling 22.1 KiB before compression.
+2025-11-19T07:51:36.2111227Z Some files were not included in the source upload.
+2025-11-19T07:51:36.2112108Z 
+2025-11-19T07:51:36.2113185Z Check the gcloud log [/home/runner/.config/gcloud/logs/2025.11.19/07.51.35.612714.log] to see which files and the contents of the
+2025-11-19T07:51:36.2115430Z default gcloudignore file used (see `$ gcloud topic gcloudignore` to learn
+2025-11-19T07:51:36.2116891Z more).
+2025-11-19T07:51:36.2117331Z 
+2025-11-19T07:51:36.2118576Z Uploading tarball of [.] to [gs://adc-agent_cloudbuild/source/1763538696.048084-8ec971f62145483a8cce3469ca0cee53.tgz]
+2025-11-19T07:51:37.4935282Z Created [https://cloudbuild.googleapis.com/v1/projects/adc-agent/locations/global/builds/f786cdd6-27f1-4a5a-9414-08b6f9601f78].
+2025-11-19T07:51:37.4938240Z Logs are available at [ https://console.cloud.google.com/cloud-build/builds/f786cdd6-27f1-4a5a-9414-08b6f9601f78?project=666504855517 ].
+2025-11-19T07:51:37.6090020Z Waiting for build to complete. Polling interval: 1 second(s).
+2025-11-19T07:52:15.6172365Z ERROR: (gcloud.builds.submit) 
+2025-11-19T07:52:15.6174040Z The build is running, and logs are being written to the default logs bucket.
+2025-11-19T07:52:15.6175989Z This tool can only stream logs if you are Viewer/Owner of the project and, if applicable, allowed by your VPC-SC security policy.
+2025-11-19T07:52:15.6177421Z 
+2025-11-19T07:52:15.6177991Z The default logs bucket is always outside any VPC-SC security perimeter.
+2025-11-19T07:52:15.6179324Z If you want your logs saved inside your VPC-SC perimeter, use your own bucket.
+2025-11-19T07:52:15.6180135Z See https://cloud.google.com/build/docs/securing-builds/store-manage-build-logs.
+2025-11-19T07:52:15.6180634Z 
+2025-11-19T07:52:15.7056185Z ##[error]Process completed with exit code 1.
+2025-11-19T07:52:15.7148519Z Post job cleanup.
+2025-11-19T07:52:15.7952696Z Removed exported credentials at "/home/runner/work/temporal-poc/temporal-poc/gha-creds-330ae89a28abc0c0.json".
+2025-11-19T07:52:15.8087644Z Post job cleanup.
+2025-11-19T07:52:15.9032526Z [command]/usr/bin/git version
+2025-11-19T07:52:15.9068951Z git version 2.51.2
+2025-11-19T07:52:15.9114074Z Temporarily overriding HOME='/home/runner/work/_temp/2ae0239b-fa30-4a54-8833-a8944542c567' before making global git config changes
+2025-11-19T07:52:15.9115599Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-19T07:52:15.9120758Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/temporal-poc/temporal-poc
+2025-11-19T07:52:15.9156412Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-19T07:52:15.9189319Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-19T07:52:15.9416975Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-19T07:52:15.9437420Z http.https://github.com/.extraheader
+2025-11-19T07:52:15.9450562Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-11-19T07:52:15.9481139Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-19T07:52:15.9804443Z Cleaning up orphan processes
