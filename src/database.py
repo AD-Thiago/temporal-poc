@@ -37,26 +37,41 @@ def get_connection():
 
 
 def get_engine() -> Engine:
-    """Get or create SQLAlchemy engine with Cloud SQL Connector"""
+    """Get or create SQLAlchemy engine with Cloud SQL Connector or direct TCP"""
     global _engine
     
     if _engine is None:
-        logger.info(
-            "Creating database engine",
-            instance=config.database.instance_connection_name,
-            database=config.database.database_name
-        )
+        # Try Cloud SQL Connector first, fallback to direct TCP
+        if config.database.instance_connection_name:
+            logger.info(
+                "Creating database engine with Cloud SQL Connector",
+                instance=config.database.instance_connection_name,
+                database=config.database.database_name
+            )
+            connection_string = "postgresql+pg8000://"
+        else:
+            logger.info(
+                "Creating database engine with direct TCP connection",
+                host=config.database.host,
+                port=config.database.port,
+                database=config.database.database_name
+            )
+            connection_string = f"postgresql+pg8000://{config.database.user}:{config.database.password}@{config.database.host}:{config.database.port}/{config.database.database_name}"
         
-        _engine = create_engine(
-            "postgresql+pg8000://",
-            creator=get_connection,
-            pool_size=config.database.pool_size,
-            max_overflow=config.database.max_overflow,
-            pool_timeout=config.database.pool_timeout,
-            pool_recycle=config.database.pool_recycle,
-            pool_pre_ping=True,  # Enable connection health checks
-            echo=config.debug  # Log SQL queries in debug mode
-        )
+        # Use creator only for Cloud SQL Connector
+        engine_kwargs = {
+            "pool_size": config.database.pool_size,
+            "max_overflow": config.database.max_overflow,
+            "pool_timeout": config.database.pool_timeout,
+            "pool_recycle": config.database.pool_recycle,
+            "pool_pre_ping": True,  # Enable connection health checks
+            "echo": config.debug  # Log SQL queries in debug mode
+        }
+        
+        if config.database.instance_connection_name:
+            engine_kwargs["creator"] = get_connection
+        
+        _engine = create_engine(connection_string, **engine_kwargs)
         
         # Log slow queries
         @event.listens_for(_engine, "before_cursor_execute")
