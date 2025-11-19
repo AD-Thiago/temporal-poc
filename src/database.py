@@ -61,18 +61,21 @@ def get_engine() -> Engine:
         # Log slow queries
         @event.listens_for(_engine, "before_cursor_execute")
         def receive_before_cursor_execute(conn, cursor, statement, params, context, executemany):
-            conn.info.setdefault('query_start_time', []).append(None)
+            import time
+            conn.info.setdefault('query_start_time', []).append(time.time())
         
         @event.listens_for(_engine, "after_cursor_execute")
         def receive_after_cursor_execute(conn, cursor, statement, params, context, executemany):
             import time
-            total = time.time() - conn.info['query_start_time'].pop(-1)
-            if total > 1.0:  # Log queries taking > 1 second
-                logger.warning(
-                    "Slow query detected",
-                    duration_seconds=total,
-                    query=statement[:200]
-                )
+            start_time = conn.info.get('query_start_time', [None]).pop(-1)
+            if start_time is not None:
+                total = time.time() - start_time
+                if total > 1.0:  # Log queries taking > 1 second
+                    logger.warning(
+                        "Slow query detected",
+                        duration_seconds=total,
+                        query=statement[:200]
+                    )
         
         logger.info("Database engine created successfully")
     

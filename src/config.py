@@ -54,9 +54,17 @@ class AppConfig:
     """Application configuration"""
     port: int = int(os.getenv('PORT', '8080'))
     debug: bool = os.getenv('DEBUG', 'false').lower() == 'true'
-    database: DatabaseConfig = DatabaseConfig()
-    pubsub: PubSubConfig = PubSubConfig()
-    logging: LoggingConfig = LoggingConfig()
+    database: DatabaseConfig = None
+    pubsub: PubSubConfig = None
+    logging: LoggingConfig = None
+    
+    def __post_init__(self):
+        if self.database is None:
+            self.database = DatabaseConfig()
+        if self.pubsub is None:
+            self.pubsub = PubSubConfig()
+        if self.logging is None:
+            self.logging = LoggingConfig()
 
 
 # Global config instance
