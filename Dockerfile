@@ -24,7 +24,9 @@ ENV PYTHONUNBUFFERED=1 \
     LOG_LEVEL=INFO \
     ENABLE_CLOUD_LOGGING=true \
     SERVICE_NAME=temporal-worker \
-    ENVIRONMENT=production
+    ENVIRONMENT=production \
+    REDIS_HOST=10.168.202.27 \
+    REDIS_PORT=6379
 
 # Use gunicorn with increased timeout for database operations
 CMD gunicorn -w 1 --threads 8 --timeout 120 -b :$PORT src.worker_http:app

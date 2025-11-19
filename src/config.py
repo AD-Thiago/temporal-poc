@@ -40,8 +40,23 @@ class PubSubConfig:
 
 
 @dataclass
+class RedisConfig:
+    """Redis cache configuration"""
+    host: str = os.getenv('REDIS_HOST', 'localhost')
+    port: int = int(os.getenv('REDIS_PORT', '6379'))
+    password: str = os.getenv('REDIS_PASSWORD', '')
+    db: int = int(os.getenv('REDIS_DB', '0'))
+    socket_timeout: int = int(os.getenv('REDIS_SOCKET_TIMEOUT', '5'))
+    
+    # TTL configurations (in seconds)
+    ttl_job: int = int(os.getenv('REDIS_TTL_JOB', '3600'))  # 1 hour
+    ttl_metrics: int = int(os.getenv('REDIS_TTL_METRICS', '300'))  # 5 minutes
+    ttl_aggregations: int = int(os.getenv('REDIS_TTL_AGG', '600'))  # 10 minutes
+
+
+@dataclass
 class LoggingConfig:
-    """Structured logging configuration"""
+    """Logging configuration"""
     level: str = os.getenv('LOG_LEVEL', 'INFO')
     format: str = 'json'  # json or text
     enable_cloud_logging: bool = os.getenv('ENABLE_CLOUD_LOGGING', 'true').lower() == 'true'
@@ -57,6 +72,7 @@ class AppConfig:
     database: DatabaseConfig = None
     pubsub: PubSubConfig = None
     logging: LoggingConfig = None
+    redis: RedisConfig = None
     
     def __post_init__(self):
         if self.database is None:
@@ -65,6 +81,8 @@ class AppConfig:
             self.pubsub = PubSubConfig()
         if self.logging is None:
             self.logging = LoggingConfig()
+        if self.redis is None:
+            self.redis = RedisConfig()
 
 
 # Global config instance
