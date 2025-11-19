@@ -1,0 +1,30 @@
+{
+  "displayName": "[P1] Error Rate > 5% (Critical)",
+  "documentation": {
+    "content": "Alert triggered when error_rate exceeds 5% for 60 seconds. This indicates a critical failure pattern requiring immediate attention.",
+    "mimeType": "text/markdown"
+  },
+  "conditions": [
+    {
+      "displayName": "Error Rate > 5%",
+      "conditionThreshold": {
+        "filter": "metric.type=\"custom.googleapis.com/cuida_care/error_rate\" AND resource.type=\"cloud_run_revision\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 5.0,
+        "duration": "60s",
+        "aggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_MEAN"
+          }
+        ]
+      }
+    }
+  ],
+  "combiner": "OR",
+  "enabled": true,
+  "alertStrategy": {
+    "autoClose": "1800s"
+  },
+  "severity": "CRITICAL"
+}
