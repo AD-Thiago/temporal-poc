@@ -60,7 +60,7 @@ class EventLog(Base):
     job_id = Column(String(255), index=True, nullable=True)
     
     data = Column(JSON, nullable=True)
-    metadata = Column(JSON, nullable=True)
+    event_metadata = Column(JSON, nullable=True)  # Renamed from 'metadata' to avoid SQLAlchemy conflict
     
     timestamp = Column(DateTime(timezone=True), server_default=func.now(), index=True)
     correlation_id = Column(String(255), index=True, nullable=True)

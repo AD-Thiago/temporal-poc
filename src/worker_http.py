@@ -109,7 +109,7 @@ def pubsub_push():
                 event_type='message.received',
                 job_id=job_id,
                 data={'message_id': message_id, 'payload': payload},
-                metadata={'attributes': attributes},
+                event_metadata={'attributes': attributes},
                 correlation_id=correlation_id
             )
             session.add(event)
