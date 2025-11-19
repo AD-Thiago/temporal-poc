@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 from datetime import datetime
-from sqlalchemy import desc, func
+from sqlalchemy import desc, func, text
 from sqlalchemy.orm import Session
 
 from .config import config
@@ -133,10 +133,11 @@ def system_status():
         # Check database
         engine = get_engine()
         with engine.connect() as conn:
-            conn.execute("SELECT 1")
+            result = conn.execute(text("SELECT 1"))
+            result.fetchone()
         db_status = "connected"
     except Exception as e:
-        logger.error("Database check failed", error=str(e))
+        logger.error("Database check failed", error=str(e), error_type=type(e).__name__)
     
     try:
         # Check cache
