@@ -1,0 +1,88 @@
+name: Deploy FastAPI to Cloud Run
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/api.py'
+      - 'src/cache.py'
+      - 'src/database.py'
+      - 'src/models.py'
+      - 'src/config.py'
+      - 'Dockerfile.api'
+      - 'requirements.txt'
+      - '.github/workflows/deploy-api.yml'
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: adc-agent
+  REGION: us-central1
+  SERVICE_NAME: cuida-care-api
+  IMAGE_NAME: gcr.io/adc-agent/cuida-care-api
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Configure Docker for GCR
+        run: |
+          gcloud auth configure-docker
+      
+      - name: Build Docker image
+        run: |
+          docker build -f Dockerfile.api -t ${{ env.IMAGE_NAME }}:${{ github.sha }} -t ${{ env.IMAGE_NAME }}:latest .
+      
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.IMAGE_NAME }}:latest
+      
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image ${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --platform managed \
+            --region ${{ env.REGION }} \
+            --allow-unauthenticated \
+            --set-env-vars DATABASE_HOST=136.116.107.199,DATABASE_PORT=5432,DATABASE_NAME=cuida_care,DATABASE_USER=app_user,REDIS_HOST=10.168.202.27,REDIS_PORT=6379,LOG_LEVEL=INFO \
+            --set-secrets DATABASE_PASSWORD=cuida-care-db-password:latest \
+            --vpc-connector cuida-vpc-connector \
+            --vpc-egress private-ranges-only \
+            --memory 512Mi \
+            --cpu 1 \
+            --timeout 60 \
+            --concurrency 80 \
+            --min-instances 0 \
+            --max-instances 10
+      
+      - name: Get service URL
+        run: |
+          SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} --platform managed --region ${{ env.REGION }} --format 'value(status.url)')
+          echo "Service deployed at: $SERVICE_URL"
+          echo "SERVICE_URL=$SERVICE_URL" >> $GITHUB_ENV
+      
+      - name: Test API endpoints
+        run: |
+          echo "Testing health endpoint..."
+          curl -f $SERVICE_URL/health || exit 1
+          
+          echo "Testing OpenAPI docs..."
+          curl -f $SERVICE_URL/docs || exit 1
+          
+          echo "API deployment successful!"
